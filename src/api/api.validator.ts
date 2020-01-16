@@ -1,15 +1,20 @@
 import { Request, Response,NextFunction } from 'express';
+import ErrorHandler from '../helpers/error';
 
 export default class Validator {
 
     static async isAllowed(req: Request, res: Response, next: NextFunction) {
         console.log("validating...");
-        if(req.session.user != "user") {
-            res.status(401);
-            res.send("Not allowed");
+        try {
+            if(req.session.user != "user") {
+                throw new ErrorHandler(401, 'not allowed')
+            }
+            else 
+                next();
         }
-        else 
-            next();
+        catch(error) {
+            next(error)
+        }
     }
 
 }
