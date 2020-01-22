@@ -3,6 +3,7 @@ import controller from './api.controller';
 import validator from './api.validator';
 // import ch from '../helpers/controller.helper';
 import wa from '../helpers/wrapAsync';
+// import { celebrate, Joi, errors, Segments } from 'celebrate';
 
 const api = Router();
 
