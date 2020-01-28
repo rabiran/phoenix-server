@@ -7,5 +7,5 @@ export default {
     port: process.env.PORT || 3000,
     nodeEnv: process.env.NODE_ENV,
     sessionSecret: process.env.SESSION_SECRET,
-    kartoffelUrl: process.env.KARTOFFEL_URL
+    kartoffelUrl: process.env.KARTOFFEL_URL,
 }

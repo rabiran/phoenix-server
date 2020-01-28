@@ -24,6 +24,27 @@ export default class KartoffelAPI {
         }
     }
     
+    static async getGroup(groupid: string) {
+        try { 
+            const group = await axios.get(`${config.kartoffelUrl}/api/organizationgroups/${groupid}`);
+            return group.data;
+        }
+        catch(err) {
+            throw new AppError(err.response.status, 'Kartoffel error')
+        }
+    }
+
+    static async getGroupByPath(path: string) {
+        const encodedPath = encodeURIComponent(path); // for hebrew and stuff
+        try { 
+            const group = await axios.get(`${config.kartoffelUrl}/api/organizationgroups/path/${encodedPath}`);
+            return group.data;
+        }
+        catch(err) {
+            throw new AppError(err.response.status, 'Kartoffel error')
+        }
+    }
+
     static async updateResponsibility(personid: string, body) {
         try { 
             await axios.put(`${config.kartoffelUrl}/api/persons/${personid}`, body);
