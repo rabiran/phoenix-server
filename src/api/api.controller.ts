@@ -3,9 +3,15 @@ import send from '../helpers/send';
 import kartoffelAPI from '../helpers/kartoffel.api';
 import AppError from '../helpers/error';
 import config from '../config/config';
+import utils from '../helpers/controller.utils';
 
 export default class Controller {
 
+    static async auth(req: Request, res: Response) {
+        console.log("Type set");
+        req.session.type = {value: "HR", label: "שליש"};
+        send(res,200,req.session.type);
+    }
     static async test(req: Request, res: Response) {
         console.log("setting user..");
         req.session.user = "user";
@@ -29,7 +35,7 @@ export default class Controller {
         const resp = req.params.resp;
         const persons = await kartoffelAPI.getAllPersons();
         const filtered = persons.filter((person)=> person.responsibility === resp);
-        const tableData = await Promise.all(filtered.map(thing));
+        const tableData = await Promise.all(filtered.map(utils.materialTableData));
         send(res,200,tableData);
     }
 
@@ -57,7 +63,9 @@ export default class Controller {
     }
     
     static async updateAkaUnit(req: Request, res: Response) {
-        const groupid = req.body.groupid;
+        const hierarchy = req.body.hierarchy;
+        const group = await kartoffelAPI.getGroupByPath(hierarchy);
+        const groupid = group.id;
         const akaUnit = req.body.akaUnit;
         const body = {akaUnit: akaUnit};
         await kartoffelAPI.updateAkaUnit(groupid, body);
@@ -65,28 +73,9 @@ export default class Controller {
     }
 
     static async deleteResponsibility(req: Request, res: Response) {
-        const personid = req.body.personid;
-        const body = {responsibility: 'none'}
+        const personid = req.params.personid;
+        const body = {responsibility: 'none', responsibilityLocation: null}
         await kartoffelAPI.updateResponsibility(personid, body);
         send(res,200,"ok");
     }
 }
-
-const thing = async (person)=> {
-    let manages;
-    if(person.responsibilityLocation){
-        const group = await kartoffelAPI.getGroup(person.responsibilityLocation);
-        manages = group.name;
-    }
-    return { name: person.fullName, number: person.personalNumber || 'none',
-        unit: person.currentUnit || 'none' , rank: person.rank || 'none', manages: manages || 'none' }
-}
-
-// const what = async (groupid:string)=> {
-//     let hierarchy:string;
-//     const group = await kartoffelAPI.getGroup(groupid);
-//     for(let item of group.hierarchy){
-//         hierarchy += '/'+item;
-//     }
-//     return hierarchy;
-// }

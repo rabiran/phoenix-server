@@ -6,10 +6,10 @@ export default {
             responsibility: Joi.string().required(),
             hierarchy: Joi.string().required() })},
 
-    deleteRespo: {[Segments.BODY]: Joi.object().keys({
+    deleteRespo: {[Segments.PARAMS]: Joi.object().keys({
             personid: Joi.string().required() })}, 
 
     updateUnit: {[Segments.BODY]: Joi.object().keys({
-            groupid: Joi.string().required(),
+            hierarchy: Joi.string().required(),
             akaUnit: Joi.string().required() })}
 }

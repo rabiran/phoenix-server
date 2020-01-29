@@ -14,6 +14,8 @@ api.get('/', wa(validator.isAllowed), wa(controller.getPeopleByType))
 
 // -------------
 
+api.get('/auth', wa(controller.auth));
+
 api.get('/getgroup/:groupid', wa(controller.getGroup))
 
 api.get('/find/:name', wa(controller.findPerson))
@@ -24,6 +26,6 @@ api.put('/updaterespo', validation(dataValidation.updateRespo), wa(controller.up
 
 api.put('/updateunit', validation(dataValidation.updateUnit), wa(controller.updateAkaUnit))
 
-api.delete('/deleterespo', validation(dataValidation.deleteRespo), wa(controller.deleteResponsibility))
+api.delete('/deleterespo/:personid', validation(dataValidation.deleteRespo), wa(controller.deleteResponsibility))
 
 export default api;
