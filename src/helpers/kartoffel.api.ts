@@ -10,7 +10,7 @@ export default class KartoffelAPI {
             return person.data;
         }
         catch(err) {
-            throw new AppError(err.response.status, 'Kartoffel error')
+            throw new AppError(err.response.status, err.response.data.message)
         }
     }
 
@@ -20,7 +20,7 @@ export default class KartoffelAPI {
             return persons.data;
         }
         catch(err) {
-            throw new AppError(err.response.status, 'Kartoffel error')
+            throw new AppError(err.response.status, err.response.data.message)
         }
     }
     
@@ -30,7 +30,7 @@ export default class KartoffelAPI {
             return group.data;
         }
         catch(err) {
-            throw new AppError(err.response.status, 'Kartoffel error')
+            throw new AppError(err.response.status, err.response.data.message)
         }
     }
 
@@ -41,7 +41,7 @@ export default class KartoffelAPI {
             return group.data;
         }
         catch(err) {
-            throw new AppError(err.response.status, 'Kartoffel error')
+            throw new AppError(err.response.status, err.response.data.message)
         }
     }
 
@@ -50,7 +50,7 @@ export default class KartoffelAPI {
             await axios.put(`${config.kartoffelUrl}/api/persons/${personid}`, body);
         }
         catch(err) {
-            throw new AppError(err.response.status, 'Kartoffel error')
+            throw new AppError(err.response.status, err.response.data.message)
         }
     }
 
@@ -59,7 +59,7 @@ export default class KartoffelAPI {
             await axios.put(`${config.kartoffelUrl}/api/organizationGroups/${groupid}`, body);
         }
         catch(err) {
-            throw new AppError(err.response.status, 'Kartoffel error')
+            throw new AppError(err.response.status, err.response.data.message)
         }
     }
 }
